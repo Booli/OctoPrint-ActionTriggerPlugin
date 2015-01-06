@@ -17,6 +17,7 @@ class ActionTriggerPlugin(octoprint.plugin.TemplatePlugin,
         def get_template_folder(self):
                 import os
                 return os.path.join(os.path.dirname(os.path.realpath(__file__)), "templates")
+
         ##~~ AssetsPlugin
     	def get_asset_folder(self):
     		import os
@@ -27,3 +28,5 @@ class ActionTriggerPlugin(octoprint.plugin.TemplatePlugin,
     			"js": ["js/actiontrigger.js"],
     			"css": ["css/actiontrigger.css"]
     		}
+
+        ##~~ ActionTriggerPlugin

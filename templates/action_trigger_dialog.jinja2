@@ -1,0 +1,13 @@
+<div id="action_trigger_dialog" class="modal hide fade">
+  <div class="modal-header">
+    <a href="#" class="close" data-dismiss="modal" aria-hidden="true">&times;</a>
+    <h3>{{ _('Action Triggered!') }}</h3> <!-- add trigger title variable -->
+  </div>
+  <div class="modal-body">
+  <!-- Message variable goes here with extra stuff might have to split into seperate dialogs being called -->
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">{{ _('Cancel') }}</a>
+    <button class="btn btn-success confirmation_dialog_acknowledge" data-bind="enable: startedCalibration(), click: function() {saveCalibration()}">{{ _('Save') }}</button>
+  </div>
+</div>
