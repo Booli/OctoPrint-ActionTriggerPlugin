@@ -4,6 +4,7 @@ from __future__ import absolute_import
 __author__ = "Pim Rutgers <pim.rutgers@gmail.com>"
 __license__ = "GNU Affero General Public License http://www.gnu.org/licenses/agpl.html"
 
+import flask
 import octoprint.plugin
 import logging
 import time
@@ -18,9 +19,10 @@ class ActionTriggerPlugin(octoprint.plugin.TemplatePlugin,
                           octoprint.plugin.AssetPlugin):
         def __init__(self):
                 self._logger = logging.getLogger("octoprint.plugin.actiontrigger")
+                self._pluging_manager = None
 
         @property
-	    def plugin_manager(self):
+        def plugin_manager(self):
 		    if self._plugin_manager is None:
 			    self._plugin_manager = octoprint.plugin.plugin_manager()
 		    return self._plugin_manager
@@ -47,3 +49,11 @@ class ActionTriggerPlugin(octoprint.plugin.TemplatePlugin,
         # Send trigger to front end
     	def _send_client_message(self, message_type, data=None):
 		      self.plugin_manager.send_plugin_message("actiontrigger", dict(type=message_type, data=data))
+
+
+def hook_actiontrigger(comm_obj, line, action_trigger):
+        if action_trigger == "door":
+                self._send_client_message(self, action_trigger, line)
+
+__plugin_hooks__ = {'octoprint.comm.protocol.action': hook_actiontrigger}
+__plugin_implementations__ = [ActionTriggerPlugin()]
