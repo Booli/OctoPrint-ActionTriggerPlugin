@@ -26,7 +26,7 @@ $(function() {
 
     }
 
-    self.processActionTrigger = function(data)
+    self.processActionTrigger = function(data) {
 
     }
 
@@ -38,26 +38,22 @@ $(function() {
       var messageType = data.type;
       var messageData = data.data;
 
-      switch(messageType) {
-        case "pause" {
+      switch (messageType) {
+        case "pause":
           //Call pause stuff
-        }
-        case "resume" {
+        case "resume":
           //Call resume stuff
-        }
-        case "disconnect" {
+        case "disconnect":
           //Call disconect stuff
-        }
-        case "filament" {
+        case "filament":
           //Call filament stuff
-        }
-        case "door" {
-          //Call door stuff
-        }
+        case "door":
+          self.showActionTriggerDialog(data);
       //Do nothing
       }
     }
 
 
   ADDITIONAL_VIEWMODELS.push([ActionTriggerViewModel, ["loginStateViewModel", "printerStateViewModel", "controlViewModel"], document.getElementById("action_trigger_dialog")]);
-}
+  }
+})
