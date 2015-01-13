@@ -9,7 +9,6 @@ import octoprint.plugin
 import logging
 import time
 
-from . import updaters, util 
 
 ##~~ Init Plugin and Metadata
 
