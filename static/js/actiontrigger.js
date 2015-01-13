@@ -7,8 +7,7 @@ $(function() {
     self.control = parameters[2];
 
 
-
-    self.showActionTriggerDialog = function(data) {
+    self.showActionTriggerDialog = function (data) {
       //Need to figure out of this is only showing, or also some processing
       var actionTriggerDialog = $("#action_trigger_dialog");
       var actionTriggerDialogAck = $(".action_trigger_dialog_acknowledge", actionTriggerDialog);
@@ -16,7 +15,7 @@ $(function() {
       $(".action_trigger_title", actionTriggerDialog).text(data.trigger_title)
       $(".action_trigger_dialog_message", actionTriggerDialog).text(data.message);
       actionTriggerDialogAck.unbind("click");
-      actionTriggerDialogAck.bind("click", function(e) {
+      actionTriggerDialogAck.bind("click", function (e) {
         e.preventDefault();
         $("#action_trigger_dialog").modal("hide");
         //prob going to do some stuff here huh.
@@ -24,13 +23,13 @@ $(function() {
       actionTriggerDialog.modal("show");
 
 
-    }
+    };
 
-    self.processActionTrigger = function(data) {
+    self.processActionTrigger = function (data) {
 
-    }
+    };
 
-    self.onDataUpdaterPluginMessage = function(plugin, data) {
+    self.onDataUpdaterPluginMessage = function (plugin, data) {
       if (plugin != "actiontrigger") {
         return;
       }
@@ -40,20 +39,19 @@ $(function() {
 
       switch (messageType) {
         case "pause":
-          //Call pause stuff
+        //Call pause stuff
         case "resume":
-          //Call resume stuff
+        //Call resume stuff
         case "disconnect":
-          //Call disconect stuff
+        //Call disconect stuff
         case "filament":
-          //Call filament stuff
+        //Call filament stuff
         case "door":
           self.showActionTriggerDialog(data);
-      //Do nothing
+        //Do nothing
       }
-    }
+    };
 
-
-  ADDITIONAL_VIEWMODELS.push([ActionTriggerViewModel, ["loginStateViewModel", "printerStateViewModel", "controlViewModel"], document.getElementById("action_trigger_dialog")]);
   }
-})
+  ADDITIONAL_VIEWMODELS.push([ActionTriggerViewModel, ["loginStateViewModel", "printerStateViewModel", "controlViewModel"], document.getElementById("action_trigger_dialog")]);
+});
