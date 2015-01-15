@@ -58,7 +58,7 @@ class ActionTriggerPlugin(octoprint.plugin.TemplatePlugin,
 		def hook_actiontrigger(self, comm, line, action_trigger):
 				if action_trigger == "door":
 						self._send_client_message(action_trigger, dict(line=line))
-
+						comm.setPause(True)
 
 		# Send trigger to front end
 		def _send_client_message(self, message_type, data=None):

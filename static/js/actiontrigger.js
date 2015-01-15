@@ -6,13 +6,16 @@ $(function() {
     self.printerState = parameters[1];
     self.control = parameters[2];
 
+    self.actionTriggerTemplate = ko.observable(undefined);
+
+
 
     self.showActionTriggerDialog = function (data) {
       //Need to figure out of this is only showing, or also some processing
       var actionTriggerDialog = $("#action_trigger_dialog");
       var actionTriggerDialogAck = $(".action_trigger_dialog_acknowledge", actionTriggerDialog);
 
-      $(".action_trigger_title", actionTriggerDialog).text(data.trigger_title)
+      $(".action_trigger_title", actionTriggerDialog).text(data.title);
       $(".action_trigger_dialog_message", actionTriggerDialog).text(data.message);
       actionTriggerDialogAck.unbind("click");
       actionTriggerDialogAck.bind("click", function (e) {
@@ -37,6 +40,8 @@ $(function() {
       var messageType = data.type;
       var messageData = data.data;
 
+      messageData.title = "testing";
+
       switch (messageType) {
         case "pause":
         //Call pause stuff
@@ -47,7 +52,9 @@ $(function() {
         case "filament":
         //Call filament stuff
         case "door":
-          self.showActionTriggerDialog(data);
+          self.actionTriggerTemplate("door");
+          self.showActionTriggerDialog(messageData);
+          break;
         //Do nothing
       }
     };
