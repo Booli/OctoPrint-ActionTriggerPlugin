@@ -27,27 +27,11 @@ def __plugin_init__():
 
 class ActionTriggerPlugin(octoprint.plugin.TemplatePlugin,
 						  octoprint.plugin.AssetPlugin):
-		def __init__(self):
-				self._logger = logging.getLogger("octoprint.plugin.actiontrigger")
-				self._plugin_manager = None
-
-
-		@property
-		def plugin_manager(self):
-			if self._plugin_manager is None:
-				self._plugin_manager = octoprint.plugin.plugin_manager()
-			return self._plugin_manager
 
 		##~~ TemplatePlugin
-		def get_template_folder(self):
-				import os
-				return os.path.join(os.path.dirname(os.path.realpath(__file__)), "templates")
+		# this might needs some vars later on
 
 		##~~ AssetsPlugin
-		def get_asset_folder(self):
-			import os
-			return os.path.join(os.path.dirname(os.path.realpath(__file__)), "static")
-
 		def get_assets(self):
 			return dict(
 				js=["js/actiontrigger.js"],
@@ -56,10 +40,15 @@ class ActionTriggerPlugin(octoprint.plugin.TemplatePlugin,
 
 		##~~ ActionTriggerPlugin
 		def hook_actiontrigger(self, comm, line, action_trigger):
-				if action_trigger == "door":
+				if action_trigger == None:
+					return
+				elif action_trigger == "door":
+						self._send_client_message(action_trigger, dict(line=line))
+						comm.setPause(True)
+				elif action_trigger == "filament":
 						self._send_client_message(action_trigger, dict(line=line))
 						comm.setPause(True)
 
 		# Send trigger to front end
 		def _send_client_message(self, message_type, data=None):
-				self.plugin_manager.send_plugin_message("actiontrigger", dict(type=message_type, data=data))
+				self._plugin_manager.send_plugin_message("actiontrigger", dict(type=message_type, data=data))
