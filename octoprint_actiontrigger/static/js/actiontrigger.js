@@ -8,7 +8,8 @@ $(function() {
 
     self.actionTriggerTemplate = ko.observable(undefined);
 
-
+    self.door_action = ko.observable(undefined);
+    self.filament_action = ko.observable(undefined);
 
     self.showActionTriggerDialog = function (data) {
       //Need to figure out of this is only showing, or also some processing
@@ -48,10 +49,13 @@ $(function() {
       switch (messageType) {
         case "pause":
         //Call pause stuff
+          break;
         case "resume":
         //Call resume stuff
+          break;
         case "disconnect":
         //Call disconect stuff
+          break;
         case "filament":
           if (self.printerState.isPrinting()) {
             self.control.sendHomeCommand(['x', 'y']);
@@ -62,7 +66,7 @@ $(function() {
           };
         case "door":
           if (self.printerState.isPrinting()) {
-            self.control.sendHomeCommand(['x', 'y']);
+            self.control.sendHomeCommand(['x']);
             messageData.title = "Attention! Door is open!";
             self.actionTriggerTemplate(messageType);
             self.showActionTriggerDialog(messageData);

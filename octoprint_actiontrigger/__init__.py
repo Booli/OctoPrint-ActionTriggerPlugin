@@ -5,10 +5,18 @@ __author__ = "Pim Rutgers <pim.rutgers@gmail.com>"
 __license__ = "GNU Affero General Public License http://www.gnu.org/licenses/agpl.html"
 
 import flask
-import octoprint.plugin
 import logging
 import time
 
+import octoprint.plugin
+import octoprint.settings
+
+default_settings = {
+	"action_door": True,
+	"action_filament": True
+}
+
+s = octoprint.plugin.plugin_settings("actiontrigger", defaults=default_settings)
 
 ##~~ Init Plugin and Metadata
 
@@ -30,13 +38,17 @@ class ActionTriggerPlugin(octoprint.plugin.TemplatePlugin,
 
 		##~~ TemplatePlugin
 		# this might needs some vars later on
+		def get_template_configs(self):
+				return [
+						dict(type="settings", name="Action Trigger", custom_binding=False)
+				]
 
 		##~~ AssetsPlugin
 		def get_assets(self):
-			return dict(
-				js=["js/actiontrigger.js"],
-				css=["css/actiontrigger.css"]
-			)
+				return dict(
+					js=["js/actiontrigger.js"],
+					css=["css/actiontrigger.css"]
+				)
 
 		##~~ ActionTriggerPlugin
 		def hook_actiontrigger(self, comm, line, action_trigger):
