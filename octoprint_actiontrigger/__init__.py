@@ -34,7 +34,8 @@ def __plugin_init__():
 		__plugin_hooks__ = {'octoprint.comm.protocol.action': _plugin.hook_actiontrigger}
 
 class ActionTriggerPlugin(octoprint.plugin.TemplatePlugin,
-						  octoprint.plugin.AssetPlugin):
+						  octoprint.plugin.AssetPlugin,
+						  octoprint.plugin.SettingsPlugin):
 
 		##~~ TemplatePlugin
 		# this might needs some vars later on
@@ -46,9 +47,25 @@ class ActionTriggerPlugin(octoprint.plugin.TemplatePlugin,
 		##~~ AssetsPlugin
 		def get_assets(self):
 				return dict(
-					js=["js/actiontrigger.js"],
-					css=["css/actiontrigger.css"]
+						js=["js/actiontrigger.js"],
+						css=["css/actiontrigger.css"]
 				)
+
+		##~ SettingsPlugin
+		def on_settings_load(self):
+				return dict(
+						action_door=s.getBoolean(["action_door"]),
+						action_filament=s.getBoolean(["action_filament"])
+				)
+
+		def on_settings_save(self, data):
+				if "action_door" in data and data["action_door"]:
+						s.setBoolean(["action_door"], data["action_door"])
+				if "action_filament" in data and data["action_filament"]:
+						s.setBoolean(["action_filament"], data["action_filament"])
+
+
+
 
 		##~~ ActionTriggerPlugin
 		def hook_actiontrigger(self, comm, line, action_trigger):
