@@ -5,11 +5,9 @@ $(function() {
     self.loginState = parameters[0];
     self.printerState = parameters[1];
     self.control = parameters[2];
+    self.settingsViewModel = parameters[3];
 
     self.actionTriggerTemplate = ko.observable(undefined);
-
-    self.door_action = ko.observable(undefined);
-    self.filament_action = ko.observable(undefined);
 
     self.showActionTriggerDialog = function (data) {
       //Need to figure out of this is only showing, or also some processing
@@ -32,6 +30,7 @@ $(function() {
 
 
     };
+
 
     self.processActionTrigger = function (data) {
 
@@ -78,5 +77,5 @@ $(function() {
     };
 
   };
-  ADDITIONAL_VIEWMODELS.push([ActionTriggerViewModel, ["loginStateViewModel", "printerStateViewModel", "controlViewModel"], document.getElementById("action_trigger_dialog")]);
+  ADDITIONAL_VIEWMODELS.push([ActionTriggerViewModel, ["loginStateViewModel", "printerStateViewModel", "controlViewModel", "settingsViewModel"], document.getElementById("action_trigger_dialog")]);
 });

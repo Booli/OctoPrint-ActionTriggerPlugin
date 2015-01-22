@@ -41,7 +41,7 @@ class ActionTriggerPlugin(octoprint.plugin.TemplatePlugin,
 		# this might needs some vars later on
 		def get_template_configs(self):
 				return [
-						dict(type="settings", name="Action Trigger", custom_binding=False)
+						dict(type="settings", name="Action Trigger", custom_bindings=False)
 				]
 
 		##~~ AssetsPlugin
