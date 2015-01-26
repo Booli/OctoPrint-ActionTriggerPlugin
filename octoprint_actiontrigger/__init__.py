@@ -22,6 +22,8 @@ s = octoprint.plugin.plugin_settings("actiontrigger", defaults=default_settings)
 
 __plugin_name__ = "ActionTriggerPlugin"
 __plugin_version__ = "0.1"
+__plugin_author__ = "Pim Rutgers"
+__plugin_url__ = "https://github.com/Booli/OctoPrint-ActionTriggerPlugin"
 __plugin_description__ = "Hooks to specific serial commands from the printer. Actions are handled accordingly"
 
 def __plugin_init__():
@@ -59,24 +61,28 @@ class ActionTriggerPlugin(octoprint.plugin.TemplatePlugin,
 				)
 
 		def on_settings_save(self, data):
-				if "action_door" in data and data["action_door"]:
+				if "action_door" in data:
 						s.setBoolean(["action_door"], data["action_door"])
-				if "action_filament" in data and data["action_filament"]:
+				if "action_filament" in data:
 						s.setBoolean(["action_filament"], data["action_filament"])
-
-
 
 
 		##~~ ActionTriggerPlugin
 		def hook_actiontrigger(self, comm, line, action_trigger):
 				if action_trigger == None:
 					return
-				elif action_trigger == "door":
+				elif action_trigger == "door_open" and s.getBoolean(["action_door"]) and comm.isPrinting():
+						self._send_client_message(action_trigger, dict(line=line))
+						# might want to put this in separate function
+						comm.setPause(True)
+						self._printer.home("x")
+				elif action_trigger == "door_closed" and s.getBoolean(["action_door"]):
+						self._send_client_message(action_trigger, dict(line=line))
+						comm.setPause(False)
+				elif action_trigger == "filament" and s.getBoolean(["action_filament"]):
 						self._send_client_message(action_trigger, dict(line=line))
 						comm.setPause(True)
-				elif action_trigger == "filament":
-						self._send_client_message(action_trigger, dict(line=line))
-						comm.setPause(True)
+						self._printer.home("x")
 
 		# Send trigger to front end
 		def _send_client_message(self, message_type, data=None):

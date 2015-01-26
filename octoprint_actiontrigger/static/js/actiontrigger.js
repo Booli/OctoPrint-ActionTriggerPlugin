@@ -31,10 +31,13 @@ $(function() {
 
     };
 
-
-    self.processActionTrigger = function (data) {
-
+    self.onBeforeBinding = function() {
+      self.settings = self.settingsViewModel.settings;
     };
+
+    self.showControls = function() {
+      $('#tabs a[href="#control"]').tab('show')
+    }
 
     self.onDataUpdaterPluginMessage = function (plugin, data) {
       if (plugin != "actiontrigger") {
@@ -46,31 +49,20 @@ $(function() {
 
 
       switch (messageType) {
-        case "pause":
-        //Call pause stuff
-          break;
-        case "resume":
-        //Call resume stuff
-          break;
-        case "disconnect":
-        //Call disconect stuff
-          break;
         case "filament":
-          if (self.printerState.isPrinting()) {
-            self.control.sendHomeCommand(['x', 'y']);
-            messageData.title = "Attention! Filament stop detected!";
-            self.actionTriggerTemplate(messageType);
-            self.showActionTriggerDialog(messageData);
-            break;
-          };
-        case "door":
-          if (self.printerState.isPrinting()) {
-            self.control.sendHomeCommand(['x']);
-            messageData.title = "Attention! Door is open!";
-            self.actionTriggerTemplate(messageType);
-            self.showActionTriggerDialog(messageData);
-            break;
-          };
+          messageData.title = "Attention! Filament stop detected!";
+          self.actionTriggerTemplate(messageType);
+          self.showActionTriggerDialog(messageData);
+          break;
+        case "door_open":
+          messageData.title = "Attention! Door is open!";
+          self.actionTriggerTemplate(messageType);
+          self.showActionTriggerDialog(messageData);
+          break;
+        case "door_closed":
+          $("#action_trigger_dialog").modal("hide");
+          break;
+
 
         //Do nothing
       };

@@ -1,16 +1,20 @@
 <h4>{{ _('Action Trigger Plugin') }}</h4>
 
 <div class="control-group">
+  <strong>Door</strong></br>
+  Enabling this option will pause the printer and home X when the door is opened. Disable this option if you want to be able to open the door while printing.
   <div class="controls">
     <label class="checkbox">
-      <input type="checkbox" data-bind="checked: settings.plugins.actiontrigger.action_door"> {{ _('Action Door') }}
+      <input type="checkbox" data-bind="checked: settings.plugins.actiontrigger.action_door"> {{ _('Door detection') }}
     </label>
   </div>
 </div>
 <div class="control-group">
+  <strong>Filament Detection</strong></br>
+  This option enables the filament detection, pausing the print when there is no filament fed into the printer.
   <div class="controls">
     <label class="checkbox">
-      <input type="checkbox" data-bind="checked: settings.plugins.actiontrigger.action_filament"> {{ _('Action Filament') }}
+      <input type="checkbox" data-bind="checked: settings.plugins.actiontrigger.action_filament"> {{ _('Filament detection') }}
     </label>
   </div>
 </div>

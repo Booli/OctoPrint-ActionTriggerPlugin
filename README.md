@@ -2,7 +2,7 @@ OctoPrint-ActionTriggerPlugin
 =============================
 
 
-Plugin for OctoPrint that handles serial commands send out by the printer.  Basic handler code is:
+Plugin for OctoPrint that handles serial commands send out by the printer. These action triggers should be manually added to your firmware if you want to use this add-on.  Basic handler code is:
 
 ---
 
@@ -10,12 +10,16 @@ Plugin for OctoPrint that handles serial commands send out by the printer.  Basi
     // action:somevariable
 
 
-TODO:
-- Add in triggers for door opening and filament detection
-- Create pause dialog that will will be used to change filament. 
-- Create settings dialog where users can add custom triggers with dialogs
+Plugin reacts to two different situations, door open/close and filament deteciton.
 
+    action:door_open
+    action:door_closed
 
+``action:door_open`` will pause the print and home the X-axis. Pop-up dialog will notify the user, they can decide to accept the pop-up and use the controls. Closing the door will trigger ``action:door_closed`` resume the print and close the dialog
+
+    action:filament
+
+This trigger will pause the print and home the X and Y axis, giving the user the opportunity to change out the filament. The print needs to be resumed manually through the UI.
 
 Addon-on slogan:
 
