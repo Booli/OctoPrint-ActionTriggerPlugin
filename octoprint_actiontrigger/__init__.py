@@ -1,9 +1,6 @@
 # coding=utf-8
 from __future__ import absolute_import
 
-__author__ = "Pim Rutgers <pim.rutgers@gmail.com>"
-__license__ = "GNU Affero General Public License http://www.gnu.org/licenses/agpl.html"
-
 import flask
 import logging
 import time
