@@ -10,7 +10,6 @@ $(function() {
     self.actionTriggerTemplate = ko.observable(undefined);
 
     self.showActionTriggerDialog = function (data) {
-      //Need to figure out of this is only showing, or also some processing
       var actionTriggerDialog = $("#action_trigger_dialog");
       var actionTriggerDialogAck = $(".action_trigger_dialog_acknowledge", actionTriggerDialog);
 
@@ -47,7 +46,7 @@ $(function() {
       var messageType = data.type;
       var messageData = data.data;
 
-
+      // Process action_trigger call from plugin
       switch (messageType) {
         case "filament":
           messageData.title = "Attention! Filament stop detected!";

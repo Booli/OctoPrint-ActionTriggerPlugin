@@ -18,14 +18,6 @@ default_settings = {
 
 s = octoprint.plugin.plugin_settings("actiontrigger", defaults=default_settings)
 
-##~~ Init Plugin and Metadata
-
-__plugin_name__ = "ActionTriggerPlugin"
-__plugin_version__ = "0.1"
-__plugin_author__ = "Pim Rutgers"
-__plugin_url__ = "https://github.com/Booli/OctoPrint-ActionTriggerPlugin"
-__plugin_description__ = "Hooks to specific serial commands from the printer. Actions are handled accordingly"
-
 def __plugin_init__():
 		global _plugin
 		global __plugin_implementations__
