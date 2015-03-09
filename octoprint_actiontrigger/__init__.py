@@ -15,6 +15,11 @@ default_settings = {
 
 s = octoprint.plugin.plugin_settings("actiontrigger", defaults=default_settings)
 
+##~~ Init Plugin and Metadata
+
+__plugin_name__ = "Action Trigger"
+
+
 def __plugin_init__():
 		global _plugin
 		global __plugin_implementations__
@@ -26,10 +31,13 @@ def __plugin_init__():
 
 class ActionTriggerPlugin(octoprint.plugin.TemplatePlugin,
 						  octoprint.plugin.AssetPlugin,
-						  octoprint.plugin.SettingsPlugin):
+						  octoprint.plugin.SettingsPlugin,
+						  octoprint.plugin.EventHandlerPlugin):
+	
+		def __init__(self):
+			self.filament_action = False
 
 		##~~ TemplatePlugin
-		# this might needs some vars later on
 		def get_template_configs(self):
 				return [
 						dict(type="settings", name="Action Trigger", custom_bindings=False)
@@ -45,34 +53,40 @@ class ActionTriggerPlugin(octoprint.plugin.TemplatePlugin,
 		##~ SettingsPlugin
 		def on_settings_load(self):
 				return dict(
-						action_door=s.getBoolean(["action_door"]),
-						action_filament=s.getBoolean(["action_filament"])
+						action_door=s.get_boolean(["action_door"]),
+						action_filament=s.get_boolean(["action_filament"])
 				)
 
 		def on_settings_save(self, data):
 				if "action_door" in data:
-						s.setBoolean(["action_door"], data["action_door"])
+						s.set_boolean(["action_door"], data["action_door"])
 				if "action_filament" in data:
-						s.setBoolean(["action_filament"], data["action_filament"])
+						s.set_boolean(["action_filament"], data["action_filament"])
 
 
 		##~~ ActionTriggerPlugin
 		def hook_actiontrigger(self, comm, line, action_trigger):
 				if action_trigger == None:
 					return
-				elif action_trigger == "door_open" and s.getBoolean(["action_door"]) and comm.isPrinting():
+				elif action_trigger == "door_open" and s.get_boolean(["action_door"]) and comm.isPrinting():
 						self._send_client_message(action_trigger, dict(line=line))
 						# might want to put this in separate function
 						comm.setPause(True)
 						self._printer.home("x")
-				elif action_trigger == "door_closed" and s.getBoolean(["action_door"]):
+				elif action_trigger == "door_closed" and s.get_boolean(["action_door"]):
 						self._send_client_message(action_trigger, dict(line=line))
 						comm.setPause(False)
-				elif action_trigger == "filament" and s.getBoolean(["action_filament"]):
+				elif action_trigger == "filament" and s.get_boolean(["action_filament"]) and self.filament_action == False:
 						self._send_client_message(action_trigger, dict(line=line))
 						comm.setPause(True)
 						self._printer.home("x")
+						self.filament_action = True
 
 		# Send trigger to front end
 		def _send_client_message(self, message_type, data=None):
 				self._plugin_manager.send_plugin_message("actiontrigger", dict(type=message_type, data=data))
+
+		# Set flags on event
+		def on_event(self, event, payload):
+			if event == "PrintResumed" or event == "PrintStarted":
+				self.filament_action = False

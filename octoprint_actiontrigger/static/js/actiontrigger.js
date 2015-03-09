@@ -19,6 +19,7 @@ $(function() {
       actionTriggerDialogAck.bind("click", function (e) {
         e.preventDefault();
         $("#action_trigger_dialog").modal("hide");
+        self.showControls();
         //prob going to do some stuff here huh.
       });
       actionTriggerDialog.modal({
@@ -30,13 +31,17 @@ $(function() {
 
     };
 
+    //$('#action_trigger_dialog').on('hidden', function(){
+    //  $('#action_trigger_dialog').data('modal', null);
+    //});
+
     self.onBeforeBinding = function() {
       self.settings = self.settingsViewModel.settings;
     };
 
     self.showControls = function() {
       $('#tabs a[href="#control"]').tab('show')
-    }
+    };
 
     self.onDataUpdaterPluginMessage = function (plugin, data) {
       if (plugin != "actiontrigger") {

@@ -1,4 +1,4 @@
-<div id="action_trigger_dialog" class="modal hide fade">
+<div id="action_trigger_dialog" class="modal hide">
   <div class="modal-header">
     <!--<a href="#" class="close" data-dismiss="modal" aria-hidden="true">&times;</a> Out for now-->
     <h3><p class="action_trigger_title"></p></h3> <!-- trigger title variable -->
@@ -16,7 +16,7 @@
       To disable this feature go to Settings -> ActionTrigger and untick "Door detection".
   </div>
   <div class="modal-footer">
-    <a href="#" class="btn btn-warning" data-dismiss="modal" aria-hidden="true">{{ _('I understand, let me access the controls') }}</a>
+    <a href="#" class="btn btn-warning action_trigger_dialog_acknowledge" aria-hidden="true">{{ _('I understand, let me access the controls') }}</a>
   </div>
 </script>
 
@@ -28,6 +28,6 @@
     Use the Control tab to load a new roll filament if needed. Resume print through the status panel.
   </div>
   <div class="modal-footer">
-    <a href="#" class="btn btn-warning" data-dismiss="modal" aria-hidden="true" data-bind="click: showControls">{{ _('Proceed to controls') }}</a>
+    <a href="#" class="btn btn-warning action_trigger_dialog_acknowledge" aria-hidden="true">{{ _('Proceed to controls') }}</a>
   </div>
 </script>
