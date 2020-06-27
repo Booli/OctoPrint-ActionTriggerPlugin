@@ -27,7 +27,10 @@ def __plugin_init__():
 
 		_plugin = ActionTriggerPlugin()
 		__plugin_implementations__ = [_plugin]
-		__plugin_hooks__ = {'octoprint.comm.protocol.action': _plugin.hook_actiontrigger}
+		__plugin_hooks__ = {
+			'octoprint.comm.protocol.action': _plugin.hook_actiontrigger,
+			'octoprint.plugin.softwareupdate.check_config': _plugin.get_update_information
+		}
 
 class ActionTriggerPlugin(octoprint.plugin.TemplatePlugin,
 						  octoprint.plugin.AssetPlugin,
@@ -81,6 +84,26 @@ class ActionTriggerPlugin(octoprint.plugin.TemplatePlugin,
 						comm.setPause(True)
 						self._printer.home("x")
 						self.filament_action = True
+
+		def get_update_information(self):
+			# Define the configuration for your plugin to use with the Software Update
+			# Plugin here. See https://docs.octoprint.org/en/master/bundledplugins/softwareupdate.html
+			# for details.
+			return dict(
+				octoprint_actiontrigger=dict(
+					displayName="Action Trigger Plugin",
+					displayVersion=self._plugin_version,
+
+					# version check: github repository
+					type="github_release",
+					user="Booli",
+					repo="OctoPrint-ActionTriggerPlugin",
+					current=self._plugin_version,
+
+					# update method: pip
+					pip="https://github.com/Booli/OctoPrint-ActionTriggerPlugin/archive/{target_version}.zip"
+				)
+			)
 
 		# Send trigger to front end
 		def _send_client_message(self, message_type, data=None):
