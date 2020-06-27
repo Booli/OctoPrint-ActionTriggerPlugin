@@ -1,5 +1,5 @@
 # coding=utf-8
-from __future__ import absolute_import
+from __future__ import absolute_import, unicode_literals
 
 import flask
 import logging
@@ -18,7 +18,7 @@ s = octoprint.plugin.plugin_settings("actiontrigger", defaults=default_settings)
 ##~~ Init Plugin and Metadata
 
 __plugin_name__ = "Action Trigger"
-
+__plugin_pythoncompat__ = ">=2.7,<4"
 
 def __plugin_init__():
 		global _plugin
