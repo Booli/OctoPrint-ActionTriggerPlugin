@@ -68,7 +68,7 @@ class ActionTriggerPlugin(octoprint.plugin.TemplatePlugin,
 
 
 		##~~ ActionTriggerPlugin
-		def hook_actiontrigger(self, comm, line, action_trigger):
+		def hook_actiontrigger(self, comm, line, action_trigger, *args, **kwargs):
 				if action_trigger == None:
 					return
 				elif action_trigger == "door_open" and s.get_boolean(["action_door"]) and comm.isPrinting():
