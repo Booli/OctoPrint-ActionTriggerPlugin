@@ -19,18 +19,12 @@ s = octoprint.plugin.plugin_settings("actiontrigger", defaults=default_settings)
 
 __plugin_name__ = "Action Trigger"
 __plugin_pythoncompat__ = ">=2.7,<4"
+__plugin_implementation__ = ActionTriggerPlugin()
+__plugin_hooks__ = {
+	'octoprint.comm.protocol.action': __plugin_implementation__.hook_actiontrigger,
+	'octoprint.plugin.softwareupdate.check_config': __plugin_implementation__.get_update_information
+}
 
-def __plugin_init__():
-		global _plugin
-		global __plugin_implementations__
-		global __plugin_hooks__
-
-		_plugin = ActionTriggerPlugin()
-		__plugin_implementations__ = [_plugin]
-		__plugin_hooks__ = {
-			'octoprint.comm.protocol.action': _plugin.hook_actiontrigger,
-			'octoprint.plugin.softwareupdate.check_config': _plugin.get_update_information
-		}
 
 class ActionTriggerPlugin(octoprint.plugin.TemplatePlugin,
 						  octoprint.plugin.AssetPlugin,
