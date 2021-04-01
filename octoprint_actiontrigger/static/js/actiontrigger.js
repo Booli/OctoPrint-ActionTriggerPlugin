@@ -44,9 +44,9 @@ $(function() {
     };
 
     self.onDataUpdaterPluginMessage = function (plugin, data) {
-      if (plugin != "actiontrigger") {
+      if (plugin !== "actiontrigger") {
         return;
-      };
+      }
 
       var messageType = data.type;
       var messageData = data.data;
@@ -69,9 +69,13 @@ $(function() {
 
 
         //Do nothing
-      };
+      }
     };
 
-  };
-  ADDITIONAL_VIEWMODELS.push([ActionTriggerViewModel, ["loginStateViewModel", "printerStateViewModel", "controlViewModel", "settingsViewModel"], document.getElementById("action_trigger_dialog")]);
+  }
+  OCTOPRINT_VIEWMODELS.push({
+    construct: ActionTriggerViewModel,
+    dependencies: ["loginStateViewModel", "printerStateViewModel", "controlViewModel", "settingsViewModel"],
+    elements: ["#action_trigger_dialog"]
+  });
 });
